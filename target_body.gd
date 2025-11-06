@@ -9,6 +9,12 @@ var _right = false
 var _spin_pos = false
 var _spin_neg = false
 
+var prevLinearVelocity: Vector3
+var prevAngularVelocity: Vector3
+var linearAcceleration: Vector3
+var angularAcceleration: Vector3
+
+
 var _force_velocity = 1000
 var _torque_velocity = 700
 
@@ -20,6 +26,8 @@ var torque_y: float = 0
 func _ready() -> void:
 	set_inertia(Vector3.ONE)
 	position = Vector3(0, -1, 1)
+	prevLinearVelocity = get_linear_velocity()
+	prevAngularVelocity = get_angular_velocity()
 
 func _input(event: InputEvent) -> void:
 	
@@ -51,7 +59,24 @@ func _process(delta: float) -> void:
 	current_torque =_torque_velocity*delta*Vector3(0,torque_y,0)
 	apply_force(current_force)
 	apply_torque(current_torque)
-	
+
+func _physics_process(delta: float) -> void:
+	var position: Vector3 = global_transform.origin
+	var linearVelocity: Vector3 = get_linear_velocity()
+	var angularVelocity: Vector3 = get_angular_velocity()
+	linearAcceleration = (linearVelocity - prevLinearVelocity) / delta
+	angularAcceleration = (angularVelocity - prevAngularVelocity) / delta
+	prevLinearVelocity = linearVelocity
+	prevAngularVelocity = angularVelocity
+	printKinematics(position, linearVelocity, linearAcceleration, angularVelocity, angularAcceleration)
+
+func printKinematics(position: Vector3, linear_velocity: Vector3, linear_acceleration: Vector3, angular_velocity: Vector3, angular_acceleration: Vector3) -> void:
+	print("--- KINEMATIC DATA ---")
+	print("Position: ", position)
+	print("Linear Velocity: ", linear_velocity)
+	print("Linear Acceleration: ", linear_acceleration)
+	print("Angular Velocity: ", angular_velocity)
+	print("Angular Acceleration: ", angular_acceleration)
 
 	
 func get_linear_acceleration() -> Vector3:
