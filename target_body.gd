@@ -77,6 +77,12 @@ func printKinematics(position: Vector3, linear_velocity: Vector3, linear_acceler
 	print("Linear Acceleration: ", linear_acceleration)
 	print("Angular Velocity: ", angular_velocity)
 	print("Angular Acceleration: ", angular_acceleration)
+	
+	var out := "--- KINEMATIC DATA ---\n" + "Position: " + str(position) + "\n" + "Linear Velocity: " + str(linear_velocity) + "\n" + "Linear Acceleration: " + str(linear_acceleration) + "\n" + "Angular Velocity: " + str(angular_velocity) + "\n" + "Angular Acceleration: " + str(angular_acceleration) + "\n"
+		
+	print(out)
+	Save.logOut(out)
+	
 
 	
 func get_linear_acceleration() -> Vector3:
